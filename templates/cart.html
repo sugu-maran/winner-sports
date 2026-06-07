@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="page-header">
+    <h1>YOUR <span>CART</span></h1>
+</section>
+
+<section class="cart-section">
+    {% if cart %}
+    <div class="cart-container">
+        <div class="cart-items">
+            {% for item in cart %}
+            <div class="cart-item">
+                <div class="cart-item-placeholder">{{ item.name[0] }}</div>
+                <div class="cart-item-info">
+                    <h3>{{ item.name }}</h3>
+                    <p>Size: {{ item.size }}</p>
+                    <p>₹{{ item.price }} x {{ item.quantity }}</p>
+                </div>
+                <div class="cart-item-total">
+                    <p>₹{{ item.price * item.quantity }}</p>
+                    <button onclick="removeItem('{{ item.id }}', '{{ item.size }}')" class="remove-btn">✕</button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="cart-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+                <span>Total</span>
+                <span>₹{{ total }}</span>
+            </div>
+            <a href="/checkout" class="btn-primary">Proceed to Checkout</a>
+            <a href="/products" class="btn-secondary">Continue Shopping</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-cart">
+        <p>🛒 Your cart is empty!</p>
+        <a href="/products" class="btn-primary">Shop Now</a>
+    </div>
+    {% endif %}
+</section>
+
+<script>
+function removeItem(id, size) {
+    fetch('/remove-from-cart', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id, size})
+    }).then(() => location.reload());
+}
+</script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="page-header">
+    <h1>OUR <span>PRODUCTS</span></h1>
+</section>
+
+<section class="products-page">
+    <div class="category-filter">
+        <a href="/products?category=all" class="filter-btn {% if active_category == 'all' %}active{% endif %}">All</a>
+        <a href="/products?category=football" class="filter-btn {% if active_category == 'football' %}active{% endif %}">Football</a>
+        <a href="/products?category=cricket" class="filter-btn {% if active_category == 'cricket' %}active{% endif %}">Cricket</a>
+        <a href="/products?category=kabaddi" class="filter-btn {% if active_category == 'kabaddi' %}active{% endif %}">Kabaddi</a>
+        <a href="/products?category=volleyball" class="filter-btn {% if active_category == 'volleyball' %}active{% endif %}">Volleyball</a>
+        <a href="/products?category=basketball" class="filter-btn {% if active_category == 'basketball' %}active{% endif %}">Basketball</a>
+        <a href="/products?category=hockey" class="filter-btn {% if active_category == 'hockey' %}active{% endif %}">Hockey</a>
+        <a href="/products?category=athletics" class="filter-btn {% if active_category == 'athletics' %}active{% endif %}">Athletics</a>
+    </div>
+
+    <div class="products-grid">
+        {% for product in products %}
+        <div class="product-card">
+            <div class="product-img">
+                <div class="product-placeholder">{{ product.category[0].upper() }}</div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">{{ product.category.upper() }}</span>
+                <h3>{{ product.name }}</h3>
+                <p class="product-price">₹{{ product.price }}</p>
+                <a href="/product/{{ product.id }}" class="btn-primary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

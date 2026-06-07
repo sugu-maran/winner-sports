@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="product-detail">
+    <div class="detail-container">
+        <div class="detail-img">
+            <div class="product-placeholder-lg">{{ product.category[0].upper() }}</div>
+        </div>
+        <div class="detail-info">
+            <span class="product-category">{{ product.category.upper() }}</span>
+            <h1>{{ product.name }}</h1>
+            <p class="detail-price">₹{{ product.price }}</p>
+            <p class="detail-desc">{{ product.description }}</p>
+            <div class="size-selector">
+                <label>Select Size:</label>
+                <div class="sizes">
+                    <button class="size-btn" onclick="selectSize(this)">S</button>
+                    <button class="size-btn" onclick="selectSize(this)">M</button>
+                    <button class="size-btn" onclick="selectSize(this)">L</button>
+                    <button class="size-btn" onclick="selectSize(this)">XL</button>
+                    <button class="size-btn" onclick="selectSize(this)">XXL</button>
+                </div>
+            </div>
+            <div class="quantity-selector">
+                <label>Quantity:</label>
+                <div class="qty-control">
+                    <button onclick="changeQty(-1)">-</button>
+                    <span id="qty">1</span>
+                    <button onclick="changeQty(1)">+</button>
+                </div>
+            </div>
+            <button class="btn-primary" onclick="addToCart('{{ product.id }}', '{{ product.name }}', '{{ product.price }}')">Add to Cart</button>
+            <a href="https://wa.me/918056660113?text=Hi, I want to order {{ product.name }}" class="btn-whatsapp" target="_blank">💬 Order via WhatsApp</a>
+        </div>
+    </div>
+</section>
+
+<script>
+let selectedSize = '';
+function selectSize(btn) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    selectedSize = btn.textContent;
+}
+function changeQty(val) {
+    let qty = parseInt(document.getElementById('qty').textContent);
+    qty = Math.max(1, qty + val);
+    document.getElementById('qty').textContent = qty;
+}
+function addToCart(id, name, price) {
+    if (!selectedSize) { alert('Please select a size!'); return; }
+    const qty = parseInt(document.getElementById('qty').textContent);
+    fetch('/add-to-cart', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({id, name, price, size: selectedSize, quantity: qty})
+    }).then(r => r.json()).then(data => {
+        document.getElementById('cart-count').textContent = data.cart_count;
+        alert('Added to cart!');
+    });
+}
+</script>
+{% endblock %}

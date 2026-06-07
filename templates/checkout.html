@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="page-header">
+    <h1>CHECK<span>OUT</span></h1>
+</section>
+
+<section class="checkout-section">
+    <div class="checkout-container">
+        <div class="checkout-form">
+            <h3>Delivery Details</h3>
+            <input type="text" id="name" placeholder="Full Name" required>
+            <input type="tel" id="phone" placeholder="Phone Number" required>
+            <input type="email" id="email" placeholder="Email (optional)">
+            <textarea id="address" placeholder="Full Delivery Address" required></textarea>
+            <button class="btn-primary" onclick="initiatePayment()">Pay ₹{{ total }}</button>
+        </div>
+        <div class="checkout-summary">
+            <h3>Order Summary</h3>
+            {% for item in cart %}
+            <div class="summary-item">
+                <span>{{ item.name }} ({{ item.size }}) x{{ item.quantity }}</span>
+                <span>₹{{ item.price * item.quantity }}</span>
+            </div>
+            {% endfor %}
+            <div class="summary-total">
+                <strong>Total: ₹{{ total }}</strong>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+function initiatePayment() {
+    const name = document.getElementById('name').value;
+    const phone = document.getElementById('phone').value;
+    const address = document.getElementById('address').value;
+    if (!name || !phone || !address) { alert('Please fill all required fields!'); return; }
+
+    fetch('/create-order', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({name, phone, email: document.getElementById('email').value, address})
+    }).then(r => r.json()).then(data => {
+        const options = {
+            key: '{{ razorpay_key }}',
+            amount: data.amount,
+            currency: data.currency,
+            order_id: data.order_id,
+            name: '1 Winner Sports',
+            description: 'Sports Jersey Order',
+            handler: function(response) {
+                fetch('/payment-success', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(response)
+                }).then(r => r.json()).then(d => {
+                    window.location.href = '/order-success/' + d.order_id;
+                });
+            },
+            prefill: { name, contact: phone }
+        };
+        new Razorpay(options).open();
+    });
+}
+</script>
+{% endblock %}

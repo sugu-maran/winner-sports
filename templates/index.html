@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero">
+    <div class="hero-content">
+        <h1>PLAY HARD.<br>LOOK <span>SHARP.</span></h1>
+        <p>Premium sports jerseys & team kits for every sport. Custom stitching available.</p>
+        <div class="hero-btns">
+            <a href="/products" class="btn-primary">Shop Now</a>
+            <a href="/bulk-order" class="btn-secondary">Team Order</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>All Sports</h3>
+        <p>Football, Cricket, Kabaddi, Volleyball & more</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">✂️</div>
+        <h3>Custom Stitching</h3>
+        <p>Name, number & logo printing on jerseys</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">👕</div>
+        <h3>Team Orders</h3>
+        <p>Bulk orders for teams of any size</p>
+    </div>
+    <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Fast Delivery</h3>
+        <p>Quick delivery across Tamil Nadu</p>
+    </div>
+</section>
+
+<section class="products-section">
+    <h2 class="section-title">FEATURED <span>PRODUCTS</span></h2>
+    <div class="products-grid">
+        {% for product in featured %}
+        <div class="product-card">
+            <div class="product-img">
+                <div class="product-placeholder">{{ product.category[0].upper() }}</div>
+            </div>
+            <div class="product-info">
+                <span class="product-category">{{ product.category.upper() }}</span>
+                <h3>{{ product.name }}</h3>
+                <p class="product-price">₹{{ product.price }}</p>
+                <a href="/product/{{ product.id }}" class="btn-primary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="center-btn">
+        <a href="/products" class="btn-secondary">View All Products</a>
+    </div>
+</section>
+
+<section class="team-order-banner">
+    <div class="banner-content">
+        <h2>NEED JERSEYS FOR YOUR TEAM?</h2>
+        <p>We handle bulk orders of 10+ jerseys with custom name, number & logo printing.</p>
+        <a href="/bulk-order" class="btn-primary">Place Team Order</a>
+        <a href="https://wa.me/918056660113" class="btn-whatsapp" target="_blank">💬 WhatsApp Us</a>
+    </div>
+</section>
+
+{% endblock %}

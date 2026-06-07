@@ -1,0 +1,52 @@
+% extends "base.html" %}
+{% block content %}
+
+<section class="page-header">
+    <h1>TEAM <span>ORDER</span></h1>
+</section>
+
+<section class="bulk-section">
+    <div class="bulk-container">
+        <div class="bulk-info">
+            <h2>Order Jerseys for Your Team</h2>
+            <p>We handle bulk orders for teams of all sizes. Custom name, number & logo printing available.</p>
+            <ul>
+                <li>✅ Minimum 10 jerseys per order</li>
+                <li>✅ Custom name & number printing</li>
+                <li>✅ All sports available</li>
+                <li>✅ Fast delivery across Tamil Nadu</li>
+            </ul>
+        </div>
+        <form class="bulk-form" action="/submit-bulk-order" method="POST">
+            <h3>Fill Team Order Details</h3>
+            <input type="text" name="team_name" placeholder="Team Name" required>
+            <input type="text" name="contact_name" placeholder="Contact Person Name" required>
+            <input type="tel" name="phone" placeholder="Phone Number" required>
+            <input type="email" name="email" placeholder="Email (optional)">
+            <select name="sport_type" required>
+                <option value="">Select Sport</option>
+                <option>Football</option>
+                <option>Cricket</option>
+                <option>Kabaddi</option>
+                <option>Volleyball</option>
+                <option>Basketball</option>
+                <option>Hockey</option>
+                <option>Athletics</option>
+                <option>Other</option>
+            </select>
+            <input type="number" name="jersey_count" placeholder="Number of Jerseys" min="10" required>
+            <input type="number" name="shorts_count" placeholder="Number of Shorts (optional)">
+            <select name="custom_printing">
+                <option value="">Custom Printing?</option>
+                <option>Yes - Name & Number</option>
+                <option>Yes - Logo Only</option>
+                <option>Yes - Name, Number & Logo</option>
+                <option>No Printing</option>
+            </select>
+            <textarea name="message" placeholder="Any special requirements..."></textarea>
+            <button type="submit" class="btn-primary">Submit Team Order</button>
+        </form>
+    </div>
+</section>
+
+{% endblock %}

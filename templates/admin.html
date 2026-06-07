@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="page-header">
+    <h1>ADMIN <span>PANEL</span></h1>
+</section>
+
+<section class="admin-section">
+    <h2>Individual Orders</h2>
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>₹{{ order.total }}</td>
+                    <td><span class="status-badge {{ order.status }}">{{ order.status }}</span></td>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Team/Bulk Orders</h2>
+    <div class="table-container">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Team</th>
+                    <th>Contact</th>
+                    <th>Phone</th>
+                    <th>Sport</th>
+                    <th>Jerseys</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in bulk_orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.team_name }}</td>
+                    <td>{{ order.contact_name }}</td>
+                    <td>{{ order.phone }}</td>
+                    <td>{{ order.sport_type }}</td>
+                    <td>{{ order.jersey_count }}</td>
+                    <td><span class="status-badge {{ order.status }}">{{ order.status }}</span></td>
+                    <td>{{ order.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}
